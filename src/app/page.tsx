@@ -1,4 +1,5 @@
 "use client"
+import { generateUUID } from "@/lib/utils";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useState } from "react";
@@ -6,6 +7,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [input, setInput] = useState("")
+  const id = generateUUID()
   const { messages, sendMessage } = useChat({
         transport: new DefaultChatTransport({
       api: '/api/chat',
@@ -35,12 +37,14 @@ export default function Home() {
         if (input.trim()) {
           sendMessage({ text: input })
           setInput("")
+          window.history.replaceState({},"",`/chat/${id}`)
         }
       }}>
         <input type="text" placeholder="You Question here"
           className="p-7 border-2 rounded-xl w-[700px]"
           onChange={e => setInput(e.target.value)} />
       </form>
+
     </main>
   );
 }

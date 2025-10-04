@@ -5,24 +5,58 @@ import ChatBox from "./ChatInputBox";
 import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import MessageView from "./MessageView";
+import { SidebarTrigger } from "./ui/sidebar";
+import { defaultModels } from "@/lib/Models";
+import { useEffect, useRef, useState } from "react";
 
 export default function Chat({ id }: { id: string }) {
+  const selectedModeRef = useRef(defaultModels)
+  const [selectedModel, setSelectedModel] = useState(defaultModels);
+
+  useEffect(() => {
+    selectedModeRef.current = selectedModel
+    console.log("The seleceted mode is ", selectedModel);
+  }, [selectedModel]);
+
+  useEffect(() => {
+    console.log("The seleceted mode is ",selectedModeRef.current);
+  }, [selectedModeRef]);
+
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
+      prepareSendMessagesRequest({ messages, id, body }) {
+        return {
+          body: {
+            id,
+            messages: messages,
+            selectedChatModel:selectedModeRef.current,
+            ...body,
+          },
+        };
+      },
     }),
   });
+
   return (
     <>
-      <main className="flex h-screen flex-col">
-        <div className="w-full h-20 flex py-7 justify-end px-5">
+      <main className="flex h-lvh flex-col w-full">
+        <div className="w-full h-20 flex py-7 justify-between px-5">
+          <div>
+            <SidebarTrigger className="cursor-pointer " />
+          </div>
           <Button>
             <Plus /> <span>New tab</span>
           </Button>
         </div>
         <div className="container mx-auto w-full flex flex-col flex-1 min-h-0">
           <MessageView messages={messages} />
-          <ChatBox setMessages={sendMessage} status={status} />
+          <ChatBox
+            setMessages={sendMessage}
+            status={status}
+            selectedModel={selectedModel}
+            setSelectedModel={setSelectedModel}
+          />
         </div>
       </main>
     </>

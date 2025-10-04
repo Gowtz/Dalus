@@ -1,6 +1,6 @@
 "use client";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { ChatStatus, DefaultChatTransport, UIMessage } from "ai";
 import ChatBox from "./ChatInputBox";
 import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
@@ -10,16 +10,16 @@ import { defaultModels } from "@/lib/Models";
 import { useEffect, useRef, useState } from "react";
 
 export default function Chat({ id }: { id: string }) {
-  const selectedModeRef = useRef(defaultModels)
+  const selectedModeRef = useRef(defaultModels);
   const [selectedModel, setSelectedModel] = useState(defaultModels);
 
   useEffect(() => {
-    selectedModeRef.current = selectedModel
+    selectedModeRef.current = selectedModel;
     console.log("The seleceted mode is ", selectedModel);
   }, [selectedModel]);
 
   useEffect(() => {
-    console.log("The seleceted mode is ",selectedModeRef.current);
+    console.log("The seleceted mode is ", selectedModeRef.current);
   }, [selectedModeRef]);
 
   const { messages, sendMessage, status } = useChat({
@@ -30,14 +30,13 @@ export default function Chat({ id }: { id: string }) {
           body: {
             id,
             messages: messages,
-            selectedChatModel:selectedModeRef.current,
+            selectedChatModel: selectedModeRef.current.id,
             ...body,
           },
         };
       },
     }),
   });
-
   return (
     <>
       <main className="flex h-lvh flex-col w-full">

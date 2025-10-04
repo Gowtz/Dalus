@@ -10,19 +10,22 @@ export default function MessageView({ messages }: MessageView) {
   return (
     <div className="overflow-y-auto message flex-1 min-h-0 hide-scrollbar">
       {messages.map((message) => (
-        <div key={message.id} className="p-2 prose dark:prose-invert max-w-6xl mx-auto px-7">
+        <div
+          key={message.id}
+          className="p-2 prose dark:prose-invert max-w-6xl mx-auto px-7"
+        >
           {message.role == "user" ? (
-      <div
-        className={cn('flex items-start gap-3 w-full my-24', {
-          'justify-end': message.role === 'user' ,
-          'justify-start': message.role !== 'user',
-        })}
-      >
-              <div className="bg-zinc-900 p-3 rounded-lg">
-              {message.parts
-                .filter((part) => part.type === "text")
-                .map((part) => part.text)
-                .join("")}
+            <div
+              className={cn("flex items-start gap-3 w-full my-24", {
+                "justify-end text-secondary": message.role === "user",
+                "justify-start": message.role !== "user",
+              })}
+            >
+              <div className="inline-block bg-blue-500 text-secondary-foreground p-2 px-4 rounded-lg">
+                {message.parts
+                  .filter((part) => part.type === "text")
+                  .map((part) => part.text)
+                  .join("")}
               </div>
             </div>
           ) : (

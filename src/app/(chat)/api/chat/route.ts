@@ -4,7 +4,7 @@ import { ollama } from "ollama-ai-provider-v2";
 export async function POST(request: Request) {
     const {messages} = await request.json();
     const result = streamText({
-        model:ollama('llama3.1'),
+            model:ollama('qwen2.5-coder:1.5b'),
         messages:convertToModelMessages(messages)
     });
 

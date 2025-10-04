@@ -1,4 +1,5 @@
 "use client"
+import MarkDownView from "@/components/MarkDownView";
 import { generateUUID } from "@/lib/utils";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -9,35 +10,39 @@ export default function Home() {
   const [input, setInput] = useState("")
   const id = generateUUID()
   const { messages, sendMessage } = useChat({
-        transport: new DefaultChatTransport({
+    transport: new DefaultChatTransport({
       api: '/api/chat',
-    })}
+    })
+  }
   )
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 relative">
-      <div className="container mx-auto">
+    <main className="flex h-screen flex-col">
+      <div className="container mx-auto w-full flex flex-col flex-1 min-h-0">
+        <h1 className="text-4xl font-bold text-center ">Welcome to the Home Page</h1>
 
-        <h1 className="text-4xl font-bold text-center">Welcome to the Home Page</h1>
 
-        <div>
-      {messages.map(message => (
-        <div key={message.id}>
-          {message.role === 'user' ? 'User: ' : 'AI: '}
-          {message.parts.map((part, index) =>
-            part.type === 'text' ? <span key={index}>{part.text}</span> : null,
-          )}
+        <div className="overflow-y-auto message flex-1 min-h-0 hide-scrollbar">
+
+          {messages.map((m) => (
+            <div key={m.id} className="p-2 prose dark:prose-invert max-w-none ">
+              <MarkDownView>
+                {m.parts
+                  .filter((part) => part.type === 'text')
+                  .map((part) => part.text)
+                  .join('')}
+              </MarkDownView>
+
+            </div>
+          ))}
         </div>
-      ))}
 
-
-        </div>
       </div>
       <form onSubmit={(e) => {
         e.preventDefault();
         if (input.trim()) {
           sendMessage({ text: input })
           setInput("")
-          window.history.replaceState({},"",`/chat/${id}`)
+          window.history.replaceState({}, "", `/chat/${id}`)
         }
       }}>
         <input type="text" placeholder="You Question here"

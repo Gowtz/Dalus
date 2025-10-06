@@ -23,13 +23,14 @@ export default function Chat({ id }: { id: string }) {
   }, [selectedModeRef]);
 
   const { messages, sendMessage, status } = useChat({
+    id,
     transport: new DefaultChatTransport({
       api: "/api/chat",
       prepareSendMessagesRequest({ messages, id, body }) {
         return {
           body: {
             id,
-            messages: messages,
+            message: messages[messages.length - 1],
             selectedChatModel: selectedModeRef.current.id,
             ...body,
           },

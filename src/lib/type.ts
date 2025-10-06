@@ -1,6 +1,11 @@
-import type { UIMessage ,UITool} from "ai";
+import type { UIMessagePart } from "ai";
 
+export type ChatMessage = UIMessage;
 
-
-export type ChatMessage = UIMessage<UIMessage, UITool>;
-
+export type UIMessage<Part = UIMessagePart<any, any>, Tool = any> = {
+  id: string;
+  role: "user" | "assistant" | "system";
+  parts: Part[];
+  metadata?: Record<string, any>;
+  tools?: Tool[];
+};

@@ -1,6 +1,6 @@
 "use client";
 import { useChat } from "@ai-sdk/react";
-import { ChatStatus, DefaultChatTransport, UIMessage } from "ai";
+import { DefaultChatTransport } from "ai";
 import ChatBox from "./ChatInputBox";
 import { Plus } from "lucide-react";
 import { Button } from "./ui/button";

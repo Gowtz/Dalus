@@ -35,22 +35,24 @@ export const devModels: ChatModel[] = [
 
 export const productionModels: ChatModel[] = [
   {
-    name: "google 2.5 pro",
-    id: "google 2.5 pro",
-    provider: "google",
-  },
-
-  {
-    name: "google 2.5 Flash",
-    id: "google 2.5 Flash",
-    provider: "google",
-  },
-  {
+    id: "gemini-2.5-flash-lite",
     name: "google 2.5 Flash lite",
-    id: "google 2.5 Flash lite",
+    provider: "google",
+  },
+  {
+    id: "gemini-2.5-flash",
+    name: "google 2.5 Flash",
+    provider: "google",
+  },
+  {
+    id : "gemini-2.5-pro",
+    name: "google 2.5 pro",
     provider: "google",
   },
 ];
+console.log(isDevelopmentEnv)
 
-export const Models: ChatModel[] = isDevelopmentEnv ? devModels : [];
+export const Models: ChatModel[] = isDevelopmentEnv
+  ? devModels
+  : productionModels;
 export const defaultModels: ChatModel = Models[0];

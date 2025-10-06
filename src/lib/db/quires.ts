@@ -14,7 +14,7 @@ export async function saveChat({ id, title }: { id: string; title: string }) {
       createdAt: new Date(),
       title,
     });
-  } catch (error) {
+  } catch (_) {
     throw new Error("Database Error");
   }
 }
@@ -49,7 +49,7 @@ export async function getChatByChatId({ id }: { id: string }) {
   try {
     const [selectedChat] = await db.select().from(chat).where(eq(chat.id, id));
     return selectedChat;
-  } catch (error) {
+  } catch (_) {
     throw new Error("bad_request:database");
   }
 }

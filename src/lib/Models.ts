@@ -50,7 +50,6 @@ export const productionModels: ChatModel[] = [
     provider: "google",
   },
 ];
-console.log(isDevelopmentEnv)
 
 export const Models: ChatModel[] = isDevelopmentEnv
   ? devModels

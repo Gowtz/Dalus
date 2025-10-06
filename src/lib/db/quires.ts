@@ -27,6 +27,7 @@ export async function saveMessages({
   try {
     return await db.insert(message).values(messages);
   } catch (error) {
+    console.log("This is Error ", error);
     throw new Error("bad_request:database");
   }
 }
@@ -46,13 +47,9 @@ export async function getMessagesByChatId({ id }: { id: string }) {
 
 export async function getChatByChatId({ id }: { id: string }) {
   try {
-    return await db
-      .select()
-      .from(chat)
-      .where(eq(chat.id, id))
-      .orderBy(asc(chat.createdAt));
+    const [selectedChat] = await db.select().from(chat).where(eq(chat.id, id));
+    return selectedChat;
   } catch (error) {
-    console.log("There error is ", error);
-    throw new Error("Database Error");
+    throw new Error("bad_request:database");
   }
 }

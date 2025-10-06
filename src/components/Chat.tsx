@@ -8,6 +8,7 @@ import MessageView from "./MessageView";
 import { SidebarTrigger } from "./ui/sidebar";
 import { defaultModels } from "@/lib/Models";
 import { useEffect, useRef, useState } from "react";
+import { generateUUID } from "@/lib/utils";
 
 export default function Chat({ id }: { id: string }) {
   const selectedModeRef = useRef(defaultModels);
@@ -24,6 +25,7 @@ export default function Chat({ id }: { id: string }) {
 
   const { messages, sendMessage, status } = useChat({
     id,
+    generateId: generateUUID,
     transport: new DefaultChatTransport({
       api: "/api/chat",
       prepareSendMessagesRequest({ messages, id, body }) {
